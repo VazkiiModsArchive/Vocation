@@ -3,15 +3,21 @@ package vazkii.vocation.client;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+
+import org.lwjgl.opengl.GL11;
+
+import vazkii.vocation.common.core.Message;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import vazkii.vocation.common.core.Message;
 
 public class HUDHandler {
 
@@ -71,6 +77,9 @@ public class HUDHandler {
 	
 	@SubscribeEvent
 	public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
+		if(event.type != ElementType.ALL)
+			return;
+		
 		if(currentMessage != null) {
 			float a = 1F;
 			float time = ticksOnCurrentMessage + event.partialTicks;
@@ -92,18 +101,24 @@ public class HUDHandler {
 		Minecraft mc = Minecraft.getMinecraft();
 		FontRenderer font = mc.fontRenderer;
 		
-		float width = font.getStringWidth(m.message);
-		float dist = 30F;
+		int maxWidth = 300;
+		float width = Math.min(maxWidth, font.getStringWidth(m.message));
+		float dist = 20F;
+		float y = 20F;
+		int height = 55;
+		
+		int resolution = event.resolution.getScaleFactor();
+		float scale = 1F;
+		if(resolution > 2)
+			scale = 2F / resolution;
+		
 		
 		GL11.glPushMatrix();
-		GL11.glTranslatef((width + dist) * a - width, 0F, 0F);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-//		int alphaVal = (int) (a * 0xFF);
-		int color = 0xFFFFFF;// + (alphaVal << 24);
-		font.drawString(m.message, 0, 20, color);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glScalef(scale, scale, scale);
+		GL11.glTranslatef(((width + dist) * a - width) / scale, y / scale, 0F);
+		TextRenderer.renderText(0, 0, maxWidth, 1, m.message);
+		
+		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 	}
 	
