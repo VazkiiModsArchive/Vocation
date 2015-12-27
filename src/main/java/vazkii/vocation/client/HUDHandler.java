@@ -5,18 +5,12 @@ import java.util.Queue;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 import org.lwjgl.opengl.GL11;
 
-import vazkii.vocation.client.SoundLoader.ClientSound;
 import vazkii.vocation.common.core.Message;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -77,14 +71,8 @@ public class HUDHandler {
 		ticksOnCurrentMessage = 0;
 		ticksForFadeout = 0;
 		
-		if(currentMessage != null) {
-			ResourceLocation location = SoundLoader.soundResourcesPerMessage.get(currentMessage);
-			if(location != null) {
-				ClientSound sound = new ClientSound(location, 1F, 1F);
-				Minecraft.getMinecraft().getSoundHandler().playSound(sound);
-			}
-				
-		}
+		if(currentMessage != null)
+			SoundHandler.INSTANCE.play(currentMessage.getAudio());
 	}
 	
 	@SubscribeEvent

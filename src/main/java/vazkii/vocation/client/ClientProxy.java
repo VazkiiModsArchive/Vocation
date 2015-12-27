@@ -36,10 +36,4 @@ public class ClientProxy extends CommonProxy {
 		if(message != null)
 			hud.addMessageToQueue(message);
 	}
-	
-	@Override
-	public void initSounds(File dir) {
-		SoundLoader.loadAllSounds(dir);
-	}
-	
 }

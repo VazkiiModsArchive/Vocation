@@ -1,8 +1,8 @@
 [
 {
-  "modid": "LiMI",
-  "name": "LiMI",
-  "description": "Lightweight Mod Indicator",
+  "modid": "vocation",
+  "name": "Vocation",
+  "description": "Tutorial/voiceover thingy",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "logoFile": "",

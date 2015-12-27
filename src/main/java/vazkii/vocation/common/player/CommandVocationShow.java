@@ -13,7 +13,7 @@ public class CommandVocationShow extends CommandBase {
 	}
 
 	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return "<player> <id> <true/false>";
+		return "<player> <id> [set-seen]";
 	}
 
 	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
@@ -26,7 +26,7 @@ public class CommandVocationShow extends CommandBase {
 				m.sendToPlayer(entityplayermp);
 				if(p_71515_2_.length > 2) {
 					String var2 = p_71515_2_[2];
-					if(var2.equalsIgnoreCase("true"))
+					if(var2.equalsIgnoreCase("set-seen"))
 						PlayerDataStorage.setSeen(entityplayermp, id, true);
 				}
 				func_152373_a(p_71515_1_, this, "Shown message!");

@@ -16,9 +16,11 @@ public class MessageLoader {
 
 	public static Map<String, Message> allMessages;
 	
+	public static File baseDir;
 	public static Gson gson = new Gson();
 	
 	public static void loadAll(File baseDir) {
+		MessageLoader.baseDir = baseDir;
 		clear();
 		
 		File[] dirsInside = baseDir.listFiles(new FileFilter() {
@@ -29,8 +31,6 @@ public class MessageLoader {
 		
 		for(File f : dirsInside)
 			load(f);
-		
-		Vocation.proxy.initSounds(baseDir);
 	}
 	
 	public static void load(File baseDir) {

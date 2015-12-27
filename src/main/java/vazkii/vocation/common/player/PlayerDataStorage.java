@@ -14,9 +14,11 @@ public class PlayerDataStorage {
 
 	private static final String DATA_TAG = "VocationData";
 	private static final String LAST_SEEN = "_lastSeen";
+	private static final String SHOWN_MESSAGE = "_shownMessage";
 	
 	private static final List<String> exempt = new ArrayList() {{
 		add(LAST_SEEN);
+		add(SHOWN_MESSAGE);
 	}};
 	
 	public static NBTTagCompound getDataForPlayer(EntityPlayer player) {
@@ -67,6 +69,26 @@ public class PlayerDataStorage {
 		for(String s : keys)
 			if(!exempt.contains(s))
 				cmp.removeTag(s);
+	}
+	
+	public static void setLastSeen(EntityPlayer player, String lastSeen) {
+		NBTTagCompound cmp = getDataForPlayer(player);
+		cmp.setString(LAST_SEEN, lastSeen);
+	}
+	
+	public static String getLastSeen(EntityPlayer player) {
+		NBTTagCompound cmp = getDataForPlayer(player);
+		return cmp.getString(LAST_SEEN);
+	}
+	
+	public static void setShownMessage(EntityPlayer player) {
+		NBTTagCompound cmp = getDataForPlayer(player);
+		cmp.setBoolean(SHOWN_MESSAGE, true);
+	}
+	
+	public static boolean hasShownMessage(EntityPlayer player) {
+		NBTTagCompound cmp = getDataForPlayer(player);
+		return cmp.getBoolean(SHOWN_MESSAGE);
 	}
 	
 }

@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 @Mod(modid = Vocation.MOD_ID, name = Vocation.MOD_NAME, version = Vocation.VERSION)
 public class Vocation {
 
-	public static final String MOD_ID = "Vocation";
+	public static final String MOD_ID = "vocation";
 	public static final String MOD_NAME = "Vocation";
 	public static final String BUILD = "GRADLE:BUILD";
 	public static final String VERSION = "GRADLE:VERSION-" + BUILD;	

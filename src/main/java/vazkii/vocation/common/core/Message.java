@@ -4,8 +4,12 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import vazkii.vocation.common.network.NetworkHandler;
 import vazkii.vocation.common.network.PacketSendMessage;
+import vazkii.vocation.common.player.PlayerDataStorage;
 
 public class Message {
 
@@ -35,8 +39,18 @@ public class Message {
 	}
 	
 	public void sendToPlayer(EntityPlayer player) {
-		if(player instanceof EntityPlayerMP)
+		if(player instanceof EntityPlayerMP) {
 			NetworkHandler.INSTANCE.sendTo(new PacketSendMessage(id), (EntityPlayerMP) player);
+			PlayerDataStorage.setLastSeen(player, id);
+			if(!PlayerDataStorage.hasShownMessage(player)) {
+				PlayerDataStorage.setShownMessage(player);
+				player.addChatComponentMessage(new ChatComponentText("Use /vocation-review to see the last message you got!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+			}
+		}
+	}
+	
+	public String getAudio() {
+		return namespace + "/audio/" + voiceover;
 	}
 	
 }
