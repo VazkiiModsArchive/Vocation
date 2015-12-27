@@ -1,2 +1,2 @@
 # Vocation
-A tutorial voiceover thingy mod
+A minecraft voiceover thingy
