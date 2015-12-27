@@ -13,9 +13,12 @@ public class Message {
 	public String message;
 	public String narrator;
 	public int time;
+	public String voiceover;
 	public String triggerMode;
 	public List<Trigger> triggers;
 	public List<Action> actions;
+	
+	public transient String namespace;
 	
 	@Override
 	public String toString() {
@@ -24,6 +27,7 @@ public class Message {
 				+ " message=" + message
 				+ " narrator=" + narrator
 				+ " time=" + time
+				+ " voiceover=" + voiceover
 				+ " triggerMode=" + triggerMode
 				+ " triggers=" + triggers
 				+ " actions=" + actions

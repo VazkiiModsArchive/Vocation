@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import vazkii.vocation.common.Vocation;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,6 +29,8 @@ public class MessageLoader {
 		
 		for(File f : dirsInside)
 			load(f);
+		
+		Vocation.proxy.initSounds(baseDir);
 	}
 	
 	public static void load(File baseDir) {
@@ -34,17 +38,18 @@ public class MessageLoader {
 			if(f.isDirectory())
 				load(f);
 			
+			String namespace = baseDir.getName();
 			String name = f.getName();
 			if(name.endsWith(".json"))
-				loadJson(f);
+				loadJson(namespace, f);
 		}
 	}
 	
-	public static void loadJson(File f) {
+	public static void loadJson(String namespace, File f) {
 		try {
 			List<Message> list = gson.<List<Message>>fromJson(new FileReader(f), new TypeToken<List<Message>>(){}.getType());
 			for(Message m : list) {
-				System.out.println("loaded " + m.id + " to " + m);
+				m.namespace = namespace;
 				allMessages.put(m.id, m);
 			}
 		} catch(Exception e) {

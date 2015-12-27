@@ -37,4 +37,8 @@ public class CommonProxy {
 	public void showMessage(String id) {
 		// NO-OP
 	}
+	
+	public void initSounds(File dir) {
+		// NO-OP
+	}
 }
