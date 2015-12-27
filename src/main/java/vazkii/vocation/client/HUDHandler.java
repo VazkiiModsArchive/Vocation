@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
@@ -112,13 +113,17 @@ public class HUDHandler {
 		if(resolution > 2)
 			scale = 2F / resolution;
 		
+		int color1 = 0x44000000;
+		int color2 = 0x44000000;
 		
 		GL11.glPushMatrix();
 		GL11.glScalef(scale, scale, scale);
 		GL11.glTranslatef(((width + dist) * a - width) / scale, y / scale, 0F);
-		TextRenderer.renderText(0, 0, maxWidth, 1, m.message);
 		
-		GL11.glPopAttrib();
+		String n = EnumChatFormatting.BOLD + m.narrator;
+		TextRenderer.renderText(0, 0, font.getStringWidth(n), 1, color1, color2, n);
+		TextRenderer.renderText(0, 24, maxWidth, 1, color1, color2, m.message);
+		
 		GL11.glPopMatrix();
 	}
 	

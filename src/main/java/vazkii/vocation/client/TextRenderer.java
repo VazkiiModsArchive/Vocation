@@ -12,7 +12,7 @@ import com.google.common.base.Joiner;
 
 public class TextRenderer {
 
-	public static void renderText(int x, int y, int width, int paragraphSize, String unparsedText) {
+	public static void renderText(int x, int y, int width, int paragraphSize, int color1, int color2, String unparsedText) {
 		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 		String text = unparsedText.replaceAll("&", "\u00a7");
 		String[] textEntries = text.split("<br>");
@@ -48,8 +48,8 @@ public class TextRenderer {
 		for(List<String> words : lines)
 			height += words.isEmpty() ? paragraphSize : 10;
 		
-		Gui.drawRect(-6, -6, (int) width + 6, height + 6, 0x44000000);
-		Gui.drawRect(-4, -4, (int) width + 4, height + 4, 0x44000000);
+		Gui.drawRect(-6 + x, -6 + y, (int) width + 6 + x, height + 5 + y, color1);
+		Gui.drawRect(-4 + x, -4 + y, (int) width + 4 + x, height + 3 + y, color2);
 		
 		int i = 0;
 		for(List<String> words : lines) {
