@@ -2,16 +2,18 @@ package vazkii.vocation.common.core;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 public class MessageLoader {
 
+	public static Map<String, Message> allMessages;
+	
 	public static Gson gson = new Gson();
 	
 	public static void loadAll(File baseDir) {
@@ -40,17 +42,17 @@ public class MessageLoader {
 	
 	public static void loadJson(File f) {
 		try {
-			System.out.println("loading " + f);
-			List<Message> list = gson.fromJson(new FileReader(f), List.class);
-			
-			for(Message m : list)
-				System.out.println(m.toString());
+			List<Message> list = gson.<List<Message>>fromJson(new FileReader(f), new TypeToken<List<Message>>(){}.getType());
+			for(Message m : list) {
+				System.out.println("loaded " + m.id + " to " + m);
+				allMessages.put(m.id, m);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static void clear() {
-		// TODO
+		allMessages = new HashMap();
 	}
 }
