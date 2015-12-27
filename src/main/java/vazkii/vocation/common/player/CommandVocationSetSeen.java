@@ -35,4 +35,9 @@ public class CommandVocationSetSeen extends CommandBase {
         return p_82358_2_ == 0;
     }
 	
+	@Override
+	public int getRequiredPermissionLevel() {
+		return 2;
+	}
+	
 }
