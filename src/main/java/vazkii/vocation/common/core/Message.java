@@ -3,7 +3,9 @@ package vazkii.vocation.common.core;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.entity.player.EntityPlayerMP;
+import vazkii.vocation.common.network.NetworkHandler;
+import vazkii.vocation.common.network.PacketSendMessage;
 
 public class Message {
 
@@ -29,7 +31,8 @@ public class Message {
 	}
 	
 	public void sendToPlayer(EntityPlayer player) {
-		player.addChatMessage(new ChatComponentText("[DEBUG] " + narrator + ": " + message));
+		if(player instanceof EntityPlayerMP)
+			NetworkHandler.INSTANCE.sendTo(new PacketSendMessage(id), (EntityPlayerMP) player);
 	}
 	
 }
