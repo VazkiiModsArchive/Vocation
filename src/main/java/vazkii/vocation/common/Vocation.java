@@ -1,7 +1,9 @@
 package vazkii.vocation.common;
 
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.SidedProxy;
 
 @Mod(modid = Vocation.MOD_ID, name = Vocation.MOD_NAME, version = Vocation.VERSION)
@@ -21,6 +23,9 @@ public class Vocation {
 	@SidedProxy(serverSide = PROXY_COMMON, clientSide = PROXY_CLIENT)
 	public static CommonProxy proxy;
 	
-	
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		proxy.preInit(event);
+	}
 }
 
