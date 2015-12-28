@@ -14,6 +14,8 @@ public class ConfigHandler {
 	public static int paddingY = 20;
 	
 	public static void init(File f) {
+		config = new Configuration(f);
+		
 		config.load();
 		
 		boxWidth = loadPropInt("boxWidth", "The width of the message box.", boxWidth);
