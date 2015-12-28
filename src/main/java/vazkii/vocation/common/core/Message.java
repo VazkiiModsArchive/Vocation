@@ -24,20 +24,6 @@ public class Message {
 	
 	public transient String namespace;
 	
-	@Override
-	public String toString() {
-		return "Message["
-				+ "id=" + id
-				+ " message=" + message
-				+ " narrator=" + narrator
-				+ " time=" + time
-				+ " voiceover=" + voiceover
-				+ " triggerMode=" + triggerMode
-				+ " triggers=" + triggers
-				+ " actions=" + actions
-				+ "]";
-	}
-	
 	public void sendToPlayer(EntityPlayer player) {
 		if(player instanceof EntityPlayerMP) {
 			NetworkHandler.INSTANCE.sendTo(new PacketSendMessage(id), (EntityPlayerMP) player);
@@ -51,6 +37,25 @@ public class Message {
 	
 	public String getAudio() {
 		return namespace + "/audio/" + voiceover;
+	}
+	
+	public void runActions(EntityPlayer player) {
+		for(Action action : actions)
+			action.run(player);
+	}
+	
+	@Override
+	public String toString() {
+		return "Message["
+				+ "id=" + id
+				+ " message=" + message
+				+ " narrator=" + narrator
+				+ " time=" + time
+				+ " voiceover=" + voiceover
+				+ " triggerMode=" + triggerMode
+				+ " triggers=" + triggers
+				+ " actions=" + actions
+				+ "]";
 	}
 	
 }

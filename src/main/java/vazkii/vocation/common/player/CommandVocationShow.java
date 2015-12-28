@@ -26,8 +26,12 @@ public class CommandVocationShow extends CommandBase {
 				m.sendToPlayer(entityplayermp);
 				if(p_71515_2_.length > 2) {
 					String var2 = p_71515_2_[2];
-					if(var2.equalsIgnoreCase("set-seen"))
+					if(var2.equalsIgnoreCase("set-seen")) {
+						if(!PlayerDataStorage.isSeen(entityplayermp, id))
+							m.runActions(entityplayermp);
+						
 						PlayerDataStorage.setSeen(entityplayermp, id, true);
+					}
 				}
 				func_152373_a(p_71515_1_, this, "Shown message!");
 			}
