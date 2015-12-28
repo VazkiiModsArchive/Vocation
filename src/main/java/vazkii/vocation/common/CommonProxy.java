@@ -21,11 +21,13 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
-		File configDir = event.getSuggestedConfigurationFile().getParentFile();
+		File configFile = event.getSuggestedConfigurationFile();
+		File configDir = configFile.getParentFile();
 		File vocationDir = new File(configDir.getParentFile(), "vocation_data");
 		if(!vocationDir.exists())
 			vocationDir.mkdir();
 
+		ConfigHandler.init(configFile);
 		MessageLoader.loadAll(vocationDir);
 	}
 	

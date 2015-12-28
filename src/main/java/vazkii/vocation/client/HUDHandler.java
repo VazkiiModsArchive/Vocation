@@ -11,6 +11,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 import org.lwjgl.opengl.GL11;
 
+import vazkii.vocation.common.ConfigHandler;
 import vazkii.vocation.common.core.Message;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -107,11 +108,10 @@ public class HUDHandler {
 		Minecraft mc = Minecraft.getMinecraft();
 		FontRenderer font = mc.fontRenderer;
 		
-		int maxWidth = 300;
+		int maxWidth = ConfigHandler.boxWidth;
 		float width = Math.min(maxWidth, font.getStringWidth(m.message));
-		float dist = 20F;
-		float y = 20F;
-		int height = 55;
+		float dist = ConfigHandler.paddingX;
+		float y = ConfigHandler.paddingY;
 		
 		int resolution = event.resolution.getScaleFactor();
 		float scale = 1F;
