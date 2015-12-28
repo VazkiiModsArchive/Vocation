@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import vazkii.vocation.common.Vocation;
+import org.apache.logging.log4j.Level;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import cpw.mods.fml.common.FMLLog;
 
 public class MessageLoader {
 
@@ -49,6 +51,7 @@ public class MessageLoader {
 		try {
 			List<Message> list = gson.<List<Message>>fromJson(new FileReader(f), new TypeToken<List<Message>>(){}.getType());
 			for(Message m : list) {
+				FMLLog.log(Level.INFO, "[Vocation] Loaded message " + m + " on file " + f);
 				m.namespace = namespace;
 				allMessages.put(m.id, m);
 			}

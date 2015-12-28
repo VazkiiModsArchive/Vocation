@@ -50,7 +50,6 @@ public class Trigger {
 	public void onEntityKilled(Message message, EntityPlayer player, Entity killed) {
 		if(trigger.equals("mob_kill")) {
 			String name = EntityList.getEntityString(killed);
-			System.out.println(name);
 			if(key.equals(name))
 				trigger(message, player);
 		}

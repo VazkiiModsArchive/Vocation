@@ -45,7 +45,6 @@ public class PacketSendMessage implements IMessage, IMessageHandler<PacketSendMe
 	}
 
 	public IMessage onMessage(PacketSendMessage message, MessageContext context) {
-		System.out.println("received");
 		Vocation.proxy.showMessage(message.id);
 		return null;
 	}

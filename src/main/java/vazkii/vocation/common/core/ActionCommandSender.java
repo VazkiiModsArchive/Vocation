@@ -36,7 +36,6 @@ public class ActionCommandSender implements ICommandSender {
 
 	@Override
 	public ChunkCoordinates getPlayerCoordinates() {
-		System.out.println("Getting coords!");
 		return player.getPlayerCoordinates();
 	}
 

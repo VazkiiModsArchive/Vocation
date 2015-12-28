@@ -35,7 +35,6 @@ public class StackWrapper {
 		
 		if(nbt != null) {
 			String json = fixJson(MessageLoader.gson.toJson(nbt));
-			System.out.println(json);
 			
 			try {
 				NBTBase cmp = JsonToNBT.func_150315_a(json);
