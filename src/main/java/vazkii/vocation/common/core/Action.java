@@ -20,7 +20,7 @@ public class Action {
 	public void runCommand(EntityPlayer player) {
 		ActionCommandSender sender = new ActionCommandSender(player);
 		MinecraftServer server = MinecraftServer.getServer();
-		server.getCommandManager().executeCommand(server, param);
+		server.getCommandManager().executeCommand(sender, param);
 	}
 	
 	public void giveItem(EntityPlayer player) {

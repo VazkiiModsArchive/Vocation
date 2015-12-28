@@ -27,6 +27,11 @@ public class CommandVocationReview extends CommandBase {
 	}
 	
 	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
+		return true;
+	}
+	
+	@Override
 	public int getRequiredPermissionLevel() {
 		return 0;
 	}

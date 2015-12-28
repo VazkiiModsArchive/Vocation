@@ -1,8 +1,10 @@
 package vazkii.vocation.common.core;
 
-import vazkii.vocation.common.player.PlayerDataStorage;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.stats.StatisticsFile;
@@ -32,6 +34,25 @@ public class Trigger {
 				if(file.writeStat(stat) >= value)
 					trigger(message, player);
 			}
+		}
+	}
+	
+	public void onItemPickup(Message message, EntityPlayer player, ItemStack stack) {
+		if(trigger.equals("item_pickup") && this.stack != null && this.stack.isEquivalentItem(stack))
+			trigger(message, player);
+	}
+	
+	public void onItemCraft(Message message, EntityPlayer player, ItemStack stack) {
+		if(trigger.equals("item_craft") && this.stack != null && this.stack.isEquivalentItem(stack))
+			trigger(message, player);
+	}
+	
+	public void onEntityKilled(Message message, EntityPlayer player, Entity killed) {
+		if(trigger.equals("mob_kill")) {
+			String name = EntityList.getEntityString(killed);
+			System.out.println(name);
+			if(key.equals(name))
+				trigger(message, player);
 		}
 	}
 	

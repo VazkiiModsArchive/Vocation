@@ -2,8 +2,10 @@ package vazkii.vocation.common.core;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -79,6 +81,24 @@ public class Message {
 				trigger.onTick(this, player);
 	}
 	
+	public void onItemPickup(EntityPlayer player, ItemStack stack) {
+		if(triggers != null)
+			for(Trigger trigger : triggers)
+				trigger.onItemPickup(this, player, stack);
+	}
+	
+	public void onItemCraft(EntityPlayer player, ItemStack stack) {
+		if(triggers != null)
+			for(Trigger trigger : triggers)
+				trigger.onItemCraft(this, player, stack);
+	}
+	
+	public void onEntityKilled(EntityPlayer player, Entity killed) {
+		if(triggers != null)
+			for(Trigger trigger : triggers)
+				trigger.onEntityKilled(this, player, killed);
+	}
+
 	@Override
 	public String toString() {
 		return "Message["
