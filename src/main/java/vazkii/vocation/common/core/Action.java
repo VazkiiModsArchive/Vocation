@@ -1,5 +1,6 @@
 package vazkii.vocation.common.core;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -28,8 +29,12 @@ public class Action {
 			ItemStack istack = stack.asStack();
 			if(istack != null) {
 				ItemStack giveStack = istack.copy();
-				if(!player.inventory.addItemStackToInventory(giveStack))
-					player.dropPlayerItemWithRandomChoice(giveStack, false);
+		        player.captureDrops = true;
+		        EntityItem item = player.func_146097_a(giveStack, false, false);
+		        player.capturedDrops.clear();
+		        player.captureDrops = false;
+		        item.delayBeforeCanPickup = 0;
+		        player.joinEntityItemWithWorld(item);
 			}
 		}
 	}
