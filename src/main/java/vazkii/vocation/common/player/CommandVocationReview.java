@@ -22,7 +22,7 @@ public class CommandVocationReview extends CommandBase {
 			String last = PlayerDataStorage.getLastSeen(entityplayermp);
 			Message m = MessageLoader.allMessages.get(last);
 			if(m != null)
-				m.sendToPlayer(entityplayermp);
+				m.sendToPlayer(entityplayermp, false);
 		}
 	}
 	

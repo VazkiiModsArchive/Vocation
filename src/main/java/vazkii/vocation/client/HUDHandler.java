@@ -28,6 +28,9 @@ public class HUDHandler {
 	int ticksForFadeout = 0;
 	
 	public void addMessageToQueue(Message m) {
+		if(m.message.isEmpty())
+			return;
+		
 		messageQueue.add(m);
 		if(currentMessage == null)
 			swapMessage();
@@ -71,8 +74,11 @@ public class HUDHandler {
 		ticksOnCurrentMessage = 0;
 		ticksForFadeout = 0;
 		
-		if(currentMessage != null)
-			SoundHandler.INSTANCE.play(currentMessage.getAudio());
+		if(currentMessage != null) {
+			String audio = currentMessage.getAudio();
+			if(audio != null)
+				SoundHandler.INSTANCE.play(audio);
+		}
 	}
 	
 	@SubscribeEvent
@@ -117,7 +123,7 @@ public class HUDHandler {
 		
 		GL11.glPushMatrix();
 		GL11.glScalef(scale, scale, scale);
-		GL11.glTranslatef(((width + dist) * a - width) / scale, y / scale, 0F);
+		GL11.glTranslatef(((maxWidth + dist) * a - maxWidth) / scale, y / scale, 0F);
 		
 		String n = EnumChatFormatting.BOLD + m.narrator;
 		TextRenderer.renderText(0, 0, font.getStringWidth(n), 1, color1, color2, n);

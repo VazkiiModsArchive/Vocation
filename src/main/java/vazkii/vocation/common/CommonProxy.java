@@ -2,7 +2,10 @@ package vazkii.vocation.common;
 
 import java.io.File;
 
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
 import vazkii.vocation.common.core.MessageLoader;
+import vazkii.vocation.common.core.TriggerHandler;
 import vazkii.vocation.common.network.NetworkHandler;
 import vazkii.vocation.common.player.CommandVocationCheck;
 import vazkii.vocation.common.player.CommandVocationClear;
@@ -10,6 +13,7 @@ import vazkii.vocation.common.player.CommandVocationReload;
 import vazkii.vocation.common.player.CommandVocationReview;
 import vazkii.vocation.common.player.CommandVocationSetSeen;
 import vazkii.vocation.common.player.CommandVocationShow;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -27,6 +31,9 @@ public class CommonProxy {
 	
 	public void init(FMLInitializationEvent event) {
 		NetworkHandler.init();
+		
+		MinecraftForge.EVENT_BUS.register(TriggerHandler.INSTANCE);
+		FMLCommonHandler.instance().bus().register(TriggerHandler.INSTANCE);
 	}
 	
 	public void serverStarting(FMLServerStartingEvent event) {

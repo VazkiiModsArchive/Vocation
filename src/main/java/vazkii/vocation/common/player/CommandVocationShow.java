@@ -13,7 +13,7 @@ public class CommandVocationShow extends CommandBase {
 	}
 
 	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return "<player> <id> [set-seen]";
+		return "<player> <id> [do-actions]";
 	}
 
 	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
@@ -21,18 +21,15 @@ public class CommandVocationShow extends CommandBase {
 		if(entityplayermp != null) {
 			String id = p_71515_2_[1];
 			Message m = MessageLoader.allMessages.get(id);
-			System.out.println(m + " " + id);
 			if(m != null) {
-				m.sendToPlayer(entityplayermp);
+				boolean doActions = false;
 				if(p_71515_2_.length > 2) {
 					String var2 = p_71515_2_[2];
-					if(var2.equalsIgnoreCase("set-seen")) {
-						if(!PlayerDataStorage.isSeen(entityplayermp, id))
-							m.runActions(entityplayermp);
-						
-						PlayerDataStorage.setSeen(entityplayermp, id, true);
-					}
+					if(var2.equalsIgnoreCase("do-actions"))
+						doActions = true;
 				}
+				
+				m.sendToPlayer(entityplayermp, doActions);
 				func_152373_a(p_71515_1_, this, "Shown message!");
 			}
 		}
