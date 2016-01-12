@@ -35,7 +35,7 @@ public class PlayerDataStorage {
 	
 	public static List<String> getSeenMessage(EntityPlayer player) {
 		NBTTagCompound cmp = getDataForPlayer(player);
-		Set<String> keys = cmp.func_150296_c();
+		Set<String> keys = cmp.getKeySet();
 		
 		List<String> completed = new ArrayList();
 		for(String s : keys) {
@@ -44,7 +44,7 @@ public class PlayerDataStorage {
 			
 			if(MessageLoader.allMessages.containsKey(s)) {
 				NBTBase nbt = cmp.getTag(s);
-				if(nbt instanceof NBTTagByte && ((NBTTagByte) nbt).func_150287_d() == 1)
+				if(nbt instanceof NBTTagByte && ((NBTTagByte) nbt).getByte() == 1)
 					completed.add(s);
 			}
 		}
@@ -65,7 +65,7 @@ public class PlayerDataStorage {
 	public static void clearAllSeen(EntityPlayer player) {
 		NBTTagCompound cmp = getDataForPlayer(player);
 		
-		List<String> keys = new ArrayList(cmp.func_150296_c());
+		List<String> keys = new ArrayList(cmp.getKeySet());
 		for(String s : keys)
 			if(!exempt.contains(s))
 				cmp.removeTag(s);

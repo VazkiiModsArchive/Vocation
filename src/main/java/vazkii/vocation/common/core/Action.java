@@ -30,10 +30,10 @@ public class Action {
 			if(istack != null) {
 				ItemStack giveStack = istack.copy();
 		        player.captureDrops = true;
-		        EntityItem item = player.func_146097_a(giveStack, false, false);
+		        EntityItem item = player.dropPlayerItemWithRandomChoice(giveStack, false);
 		        player.capturedDrops.clear();
 		        player.captureDrops = false;
-		        item.delayBeforeCanPickup = 0;
+		        item.setPickupDelay(0);
 		        player.joinEntityItemWithWorld(item);
 			}
 		}

@@ -1,6 +1,7 @@
 package vazkii.vocation.common.player;
 
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import vazkii.vocation.common.core.Message;
@@ -12,11 +13,13 @@ public class CommandVocationSetSeen extends CommandBase {
 		return "vocation-set-seen";
 	}
 
+	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		return "<player> <id> <true/false>";
 	}
 
-	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
+	@Override
+	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException {
 		EntityPlayerMP entityplayermp = p_71515_2_.length == 2 ? getCommandSenderAsPlayer(p_71515_1_) : getPlayer(p_71515_1_, p_71515_2_[0]);
 		if(entityplayermp != null) {
 			String id = p_71515_2_[1];
@@ -25,7 +28,7 @@ public class CommandVocationSetSeen extends CommandBase {
 			if(m != null) {
 				boolean wasSeen = PlayerDataStorage.isSeen(entityplayermp, id);
 				PlayerDataStorage.setSeen(entityplayermp, id, seen);
-				func_152373_a(p_71515_1_, this, "Set seen to " + seen + " from " + wasSeen);
+				notifyOperators(p_71515_1_, this, "Set seen to " + seen + " from " + wasSeen);
 			}
 		}
 	}

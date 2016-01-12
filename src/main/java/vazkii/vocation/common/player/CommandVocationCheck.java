@@ -13,11 +13,13 @@ public class CommandVocationCheck extends CommandBase {
 		return "vocation-check";
 	}
 
+	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		return "<player> <id>";
 	}
 
-	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
+	@Override
+	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException {
 		EntityPlayerMP entityplayermp = getPlayer(p_71515_1_, p_71515_2_[0]);
 		if(entityplayermp != null) {
 			String id = p_71515_2_[1];

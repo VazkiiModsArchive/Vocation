@@ -28,10 +28,10 @@ public class Trigger {
 	
 	public void onTick(Message message, EntityPlayer player) {
 		if(trigger.equals("stat_above") && player instanceof EntityPlayerMP) {
-			StatBase stat = StatList.func_151177_a(key);
-			if(stat != null) {
-				StatisticsFile file = ((EntityPlayerMP) player).func_147099_x();
-				if(file.writeStat(stat) >= value)
+			StatBase stat = StatList.getOneShotStat(key);
+			if(stat != null) {	
+				StatisticsFile file = ((EntityPlayerMP) player).getStatFile();
+				if(file.readStat(stat) >= value)
 					trigger(message, player);
 			}
 		}

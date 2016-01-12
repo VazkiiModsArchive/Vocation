@@ -1,13 +1,14 @@
 package vazkii.vocation.common.core;
 
+import com.google.gson.JsonObject;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-
-import com.google.gson.JsonObject;
+import net.minecraft.util.ResourceLocation;
 
 public class StackWrapper {
 
@@ -31,13 +32,13 @@ public class StackWrapper {
 		int propMeta = metadata == -1 ? 0 : metadata;
 		validateMetadata = metadata != -1;
 		
-		stack = new ItemStack((Item) Item.itemRegistry.getObject(id), stackSize, propMeta);
+		stack = new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation(id)), stackSize, propMeta);
 		
 		if(nbt != null) {
 			String json = fixJson(MessageLoader.gson.toJson(nbt));
 			
 			try {
-				NBTBase cmp = JsonToNBT.func_150315_a(json);
+				NBTBase cmp = JsonToNBT.getTagFromJson(json);
 				if(cmp instanceof NBTTagCompound) {
 					stack.setTagCompound((NBTTagCompound) cmp); 
 					validateNBT = true;

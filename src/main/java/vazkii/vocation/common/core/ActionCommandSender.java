@@ -1,9 +1,12 @@
 package vazkii.vocation.common.core;
 
+import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ActionCommandSender implements ICommandSender {
@@ -12,16 +15,6 @@ public class ActionCommandSender implements ICommandSender {
 	
 	public ActionCommandSender(EntityPlayer player) {
 		this.player = player;
-	}
-	
-	@Override
-	public String getCommandSenderName() {
-		return "Vocation-actions";
-	}
-
-	@Override
-	public IChatComponent func_145748_c_() {
-		return player.func_145748_c_();
 	}
 
 	@Override
@@ -35,13 +28,43 @@ public class ActionCommandSender implements ICommandSender {
 	}
 
 	@Override
-	public ChunkCoordinates getPlayerCoordinates() {
-		return player.getPlayerCoordinates();
+	public World getEntityWorld() {
+		return player.getEntityWorld();
 	}
 
 	@Override
-	public World getEntityWorld() {
-		return player.getEntityWorld();
+	public String getName() {
+		return "Vocation-actions";
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public BlockPos getPosition() {
+		return player.getPosition();
+	}
+
+	@Override
+	public Vec3 getPositionVector() {
+		return player.getPositionVector();
+	}
+
+	@Override
+	public Entity getCommandSenderEntity() {
+		return null;
+	}
+
+	@Override
+	public boolean sendCommandFeedback() {
+		return false;
+	}
+
+	@Override
+	public void setCommandStat(Type type, int amount) {
+		// NO-OP
 	}
 
 }

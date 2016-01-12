@@ -4,14 +4,13 @@ import java.io.File;
 import java.net.URL;
 import java.util.Set;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundManager;
-import paulscode.sound.SoundSystem;
-import vazkii.vocation.common.core.MessageLoader;
-
 import com.google.common.collect.Sets;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundManager;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import paulscode.sound.SoundSystem;
+import vazkii.vocation.common.core.MessageLoader;
 
 // Sound loading code stolen from Lore Expansion because I'm too dumb
 // to write my own, yay :D

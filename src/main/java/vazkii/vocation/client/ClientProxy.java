@@ -1,13 +1,9 @@
 package vazkii.vocation.client;
 
-import java.io.File;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.vocation.common.CommonProxy;
 import vazkii.vocation.common.core.Message;
 import vazkii.vocation.common.core.MessageLoader;

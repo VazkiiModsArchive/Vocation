@@ -1,10 +1,11 @@
 package vazkii.vocation.common.player;
 
-import vazkii.vocation.common.core.Message;
-import vazkii.vocation.common.core.MessageLoader;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
+import vazkii.vocation.common.core.Message;
+import vazkii.vocation.common.core.MessageLoader;
 
 public class CommandVocationShow extends CommandBase {
 
@@ -12,11 +13,13 @@ public class CommandVocationShow extends CommandBase {
 		return "vocation-show";
 	}
 
+	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		return "<player> <id> [do-actions]";
 	}
 
-	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
+	@Override
+	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException {
 		EntityPlayerMP entityplayermp = getPlayer(p_71515_1_, p_71515_2_[0]);
 		if(entityplayermp != null) {
 			String id = p_71515_2_[1];
@@ -30,7 +33,7 @@ public class CommandVocationShow extends CommandBase {
 				}
 				
 				m.sendToPlayer(entityplayermp, doActions);
-				func_152373_a(p_71515_1_, this, "Shown message!");
+				notifyOperators(p_71515_1_, this, "Shown message!");
 			}
 		}
 	}

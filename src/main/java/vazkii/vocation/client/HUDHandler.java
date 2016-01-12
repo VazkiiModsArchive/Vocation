@@ -3,19 +3,18 @@ package vazkii.vocation.client;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-
-import org.lwjgl.opengl.GL11;
-
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import vazkii.vocation.common.ConfigHandler;
 import vazkii.vocation.common.core.Message;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 public class HUDHandler {
 
@@ -106,7 +105,7 @@ public class HUDHandler {
 	
 	private void renderMessage(RenderGameOverlayEvent.Post event, Message m, float a) {
 		Minecraft mc = Minecraft.getMinecraft();
-		FontRenderer font = mc.fontRenderer;
+		FontRenderer font = mc.fontRendererObj;
 		
 		int maxWidth = ConfigHandler.boxWidth;
 		float width = Math.min(maxWidth, font.getStringWidth(m.message));
