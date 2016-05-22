@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
-import net.minecraft.stats.StatisticsFile;
+import net.minecraft.stats.StatisticsManagerServer;
 
 public class Trigger {
 
@@ -30,8 +30,8 @@ public class Trigger {
 		if(trigger.equals("stat_above") && player instanceof EntityPlayerMP) {
 			StatBase stat = StatList.getOneShotStat(key);
 			if(stat != null) {	
-				StatisticsFile file = ((EntityPlayerMP) player).getStatFile();
-				if(file.readStat(stat) >= value)
+				StatisticsManagerServer stats = ((EntityPlayerMP) player).getStatFile();
+				if(stats.readStat(stat) >= value)
 					trigger(message, player);
 			}
 		}

@@ -39,10 +39,10 @@ public final class TriggerHandler {
 	
 	@SubscribeEvent
 	public void onEntityKilled(LivingDeathEvent event) {
-		if(event.source != null && event.source.getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.source.getEntity();
+		if(event.getSource() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
 			for(Message message : MessageLoader.allMessages.values())
-				message.onEntityKilled(player, event.entityLiving);	
+				message.onEntityKilled(player, event.getEntityLiving());	
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class StackWrapper {
 		int propMeta = metadata == -1 ? 0 : metadata;
 		validateMetadata = metadata != -1;
 		
-		stack = new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation(id)), stackSize, propMeta);
+		stack = new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(id)), stackSize, propMeta);
 		
 		if(nbt != null) {
 			String json = fixJson(MessageLoader.gson.toJson(nbt));

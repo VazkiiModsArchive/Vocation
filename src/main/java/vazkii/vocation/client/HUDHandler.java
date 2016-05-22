@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -83,12 +83,12 @@ public class HUDHandler {
 	
 	@SubscribeEvent
 	public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-		if(event.type != ElementType.ALL)
+		if(event.getType() != ElementType.ALL)
 			return;
 		
 		if(currentMessage != null) {
 			float a = 1F;
-			float time = ticksOnCurrentMessage + event.partialTicks;
+			float time = ticksOnCurrentMessage + event.getPartialTicks();
 			if(time < FADE_TICKS)
 				a = time / FADE_TICKS;
 
@@ -98,7 +98,7 @@ public class HUDHandler {
 		if(lastMessage != null) {
 			float a = 1F;
 			if(ticksForFadeout > 0)
-				a = (FADE_TICKS - Math.min(FADE_TICKS, (ticksForFadeout + event.partialTicks))) / FADE_TICKS;
+				a = (FADE_TICKS - Math.min(FADE_TICKS, (ticksForFadeout + event.getPartialTicks()))) / FADE_TICKS;
 			renderMessage(event, lastMessage, a);
 		}
 	}
@@ -112,7 +112,7 @@ public class HUDHandler {
 		float dist = ConfigHandler.paddingX;
 		float y = ConfigHandler.paddingY;
 		
-		int resolution = event.resolution.getScaleFactor();
+		int resolution = event.getResolution().getScaleFactor();
 		float scale = 1F;
 		if(resolution > 2)
 			scale = 2F / resolution;
@@ -124,7 +124,7 @@ public class HUDHandler {
 		GL11.glScalef(scale, scale, scale);
 		GL11.glTranslatef(((maxWidth + dist) * a - maxWidth) / scale, y / scale, 0F);
 		
-		String n = EnumChatFormatting.BOLD + m.narrator;
+		String n = TextFormatting.BOLD + m.narrator;
 		TextRenderer.renderText(0, 0, font.getStringWidth(n), 1, color1, color2, n);
 		TextRenderer.renderText(0, 24, maxWidth, 1, color1, color2, m.message);
 		

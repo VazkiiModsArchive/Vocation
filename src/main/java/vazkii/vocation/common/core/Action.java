@@ -4,6 +4,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Action {
 
@@ -20,7 +21,7 @@ public class Action {
 	
 	public void runCommand(EntityPlayer player) {
 		ActionCommandSender sender = new ActionCommandSender(player);
-		MinecraftServer server = MinecraftServer.getServer();
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		server.getCommandManager().executeCommand(sender, param);
 	}
 	
@@ -30,11 +31,11 @@ public class Action {
 			if(istack != null) {
 				ItemStack giveStack = istack.copy();
 		        player.captureDrops = true;
-		        EntityItem item = player.dropPlayerItemWithRandomChoice(giveStack, false);
+		        EntityItem item = player.dropItem(giveStack, false);
 		        player.capturedDrops.clear();
 		        player.captureDrops = false;
 		        item.setPickupDelay(0);
-		        player.joinEntityItemWithWorld(item);
+		        player.worldObj.spawnEntityInWorld(item);
 			}
 		}
 	}

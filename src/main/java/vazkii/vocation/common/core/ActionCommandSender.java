@@ -4,10 +4,12 @@ import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ActionCommandSender implements ICommandSender {
 
@@ -18,7 +20,7 @@ public class ActionCommandSender implements ICommandSender {
 	}
 
 	@Override
-	public void addChatMessage(IChatComponent p_145747_1_) {
+	public void addChatMessage(ITextComponent p_145747_1_) {
 		player.addChatComponentMessage(p_145747_1_);
 	}
 
@@ -38,18 +40,13 @@ public class ActionCommandSender implements ICommandSender {
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		return null;
 	}
 
 	@Override
 	public BlockPos getPosition() {
 		return player.getPosition();
-	}
-
-	@Override
-	public Vec3 getPositionVector() {
-		return player.getPositionVector();
 	}
 
 	@Override
@@ -65,6 +62,16 @@ public class ActionCommandSender implements ICommandSender {
 	@Override
 	public void setCommandStat(Type type, int amount) {
 		// NO-OP
+	}
+
+	@Override
+	public Vec3d getPositionVector() {
+		return player.getPositionVector();
+	}
+
+	@Override
+	public MinecraftServer getServer() {
+		return player.getServer();
 	}
 
 }

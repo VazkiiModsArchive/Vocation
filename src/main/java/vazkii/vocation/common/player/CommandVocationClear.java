@@ -4,6 +4,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 
 public class CommandVocationClear extends CommandBase {
 
@@ -17,11 +18,11 @@ public class CommandVocationClear extends CommandBase {
 	}
 
 	@Override
-	public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException{
-		EntityPlayerMP entityplayermp = p_71515_2_.length == 0 ? getCommandSenderAsPlayer(p_71515_1_) : getPlayer(p_71515_1_, p_71515_2_[0]);
+	public void execute(MinecraftServer server, ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException{
+		EntityPlayerMP entityplayermp = p_71515_2_.length == 0 ? getCommandSenderAsPlayer(p_71515_1_) : getPlayer(server, p_71515_1_, p_71515_2_[0]);
 		if(entityplayermp != null) {
 			PlayerDataStorage.clearAllSeen(entityplayermp);
-			notifyOperators(p_71515_1_, this, "Cleared!");
+			notifyCommandListener(p_71515_1_, this, "Cleared!");
 		}
 	}
 	

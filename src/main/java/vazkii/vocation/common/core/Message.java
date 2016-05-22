@@ -6,9 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import vazkii.vocation.common.network.NetworkHandler;
 import vazkii.vocation.common.network.PacketSendMessage;
 import vazkii.vocation.common.player.PlayerDataStorage;
@@ -33,7 +33,7 @@ public class Message {
 			
 			if(!PlayerDataStorage.hasShownMessage(player)) {
 				PlayerDataStorage.setShownMessage(player);
-				player.addChatComponentMessage(new ChatComponentText("Use /vocation-review to see the last message you got!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+				player.addChatComponentMessage(new TextComponentString("Use /vocation-review to see the last message you got!").setStyle(new Style().setColor(TextFormatting.AQUA)));
 			}
 			
 			if(doActions && !PlayerDataStorage.isSeen(player, id)) {

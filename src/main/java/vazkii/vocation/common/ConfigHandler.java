@@ -28,7 +28,7 @@ public class ConfigHandler {
 	
 	public static int loadPropInt(String propName, String desc, int default_) {
 		Property prop = config.get(Configuration.CATEGORY_GENERAL, propName, default_);
-		prop.comment = desc;
+		prop.setComment(desc);
 
 		return prop.getInt(default_);
 	}
