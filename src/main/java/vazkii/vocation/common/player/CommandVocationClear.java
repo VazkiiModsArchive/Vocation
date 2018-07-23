@@ -6,23 +6,28 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
+import javax.annotation.Nonnull;
+
 public class CommandVocationClear extends CommandBase {
 
-	public String getCommandName() {
+	@Override
+	@Nonnull
+	public String getName() {
 		return "vocation-clear";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
+	@Nonnull
+	public String getUsage(@Nonnull ICommandSender sender) {
 		return "<player>";
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException{
-		EntityPlayerMP entityplayermp = p_71515_2_.length == 0 ? getCommandSenderAsPlayer(p_71515_1_) : getPlayer(server, p_71515_1_, p_71515_2_[0]);
+	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException{
+		EntityPlayerMP entityplayermp = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(server, sender, args[0]);
 		if(entityplayermp != null) {
 			PlayerDataStorage.clearAllSeen(entityplayermp);
-			notifyCommandListener(p_71515_1_, this, "Cleared!");
+			notifyCommandListener(sender, this, "Cleared!");
 		}
 	}
 	

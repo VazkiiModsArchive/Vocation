@@ -12,15 +12,15 @@ import net.minecraft.client.gui.Gui;
 public class TextRenderer {
 
 	public static void renderText(int x, int y, int width, int paragraphSize, int color1, int color2, String unparsedText) {
-		FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 		String text = unparsedText.replaceAll("&", "\u00a7");
 		String[] textEntries = text.split("<br>");
 
-		List<List<String>> lines = new ArrayList();
+		List<List<String>> lines = new ArrayList<>();
 
 		String controlCodes = "";
 		for(String s : textEntries) {
-			List<String> words = new ArrayList();
+			List<String> words = new ArrayList<>();
 			String lineStr = "";
 			String[] tokens = s.split(" ");
 			for(String token : tokens) {
@@ -32,7 +32,7 @@ public class TextRenderer {
 				if(font.getStringWidth(lineStr) > width) {
 					lines.add(words);
 					lineStr = controlCodes + spaced;
-					words = new ArrayList();
+					words = new ArrayList<>();
 				}
 
 				words.add(controlCodes + token);
@@ -40,7 +40,7 @@ public class TextRenderer {
 
 			if(!lineStr.isEmpty())
 				lines.add(words);
-			lines.add(new ArrayList());
+			lines.add(new ArrayList<>());
 		}
 
 		int height = 0;

@@ -1,7 +1,6 @@
 package vazkii.vocation.client;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.vocation.common.CommonProxy;
@@ -23,7 +22,7 @@ public class ClientProxy extends CommonProxy {
 		
 		hud = new HUDHandler();
 		MinecraftForge.EVENT_BUS.register(hud);
-		FMLCommonHandler.instance().bus().register(hud);
+		//FMLCommonHandler.instance().bus().register(hud);
 	}
 	
 	@Override

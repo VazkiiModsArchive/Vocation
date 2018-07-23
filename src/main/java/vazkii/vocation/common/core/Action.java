@@ -28,14 +28,14 @@ public class Action {
 	public void giveItem(EntityPlayer player) {
 		if(stack != null) {
 			ItemStack istack = stack.asStack();
-			if(istack != null) {
+			if(istack != ItemStack.EMPTY) {
 				ItemStack giveStack = istack.copy();
 		        player.captureDrops = true;
 		        EntityItem item = player.dropItem(giveStack, false);
 		        player.capturedDrops.clear();
 		        player.captureDrops = false;
 		        item.setPickupDelay(0);
-		        player.worldObj.spawnEntityInWorld(item);
+		        player.world.spawnEntity(item);
 			}
 		}
 	}

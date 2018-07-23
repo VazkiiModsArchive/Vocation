@@ -8,33 +8,38 @@ import net.minecraft.server.MinecraftServer;
 import vazkii.vocation.common.core.Message;
 import vazkii.vocation.common.core.MessageLoader;
 
+import javax.annotation.Nonnull;
+
 public class CommandVocationShow extends CommandBase {
 
-	public String getCommandName() {
+	@Override
+	@Nonnull
+	public String getName() {
 		return "vocation-show";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
+	@Nonnull
+	public String getUsage(@Nonnull ICommandSender sender) {
 		return "<player> <id> [do-actions]";
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException {
-		EntityPlayerMP entityplayermp = getPlayer(server, p_71515_1_, p_71515_2_[0]);
+	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
+		EntityPlayerMP entityplayermp = getPlayer(server, sender, args[0]);
 		if(entityplayermp != null) {
-			String id = p_71515_2_[1];
+			String id = args[1];
 			Message m = MessageLoader.allMessages.get(id);
 			if(m != null) {
 				boolean doActions = false;
-				if(p_71515_2_.length > 2) {
-					String var2 = p_71515_2_[2];
+				if(args.length > 2) {
+					String var2 = args[2];
 					if(var2.equalsIgnoreCase("do-actions"))
 						doActions = true;
 				}
 				
 				m.sendToPlayer(entityplayermp, doActions);
-				notifyCommandListener(p_71515_1_, this, "Shown message!");
+				notifyCommandListener(sender, this, "Shown message!");
 			}
 		}
 	}

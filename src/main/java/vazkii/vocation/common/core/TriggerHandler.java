@@ -28,7 +28,7 @@ public final class TriggerHandler {
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent event) {
 		for(Message message : MessageLoader.allMessages.values())
-			message.onItemPickup(event.player, event.pickedUp.getEntityItem());
+			message.onItemPickup(event.player, event.getOriginalEntity().getItem());
 	}
 	
 	@SubscribeEvent
@@ -39,8 +39,8 @@ public final class TriggerHandler {
 	
 	@SubscribeEvent
 	public void onEntityKilled(LivingDeathEvent event) {
-		if(event.getSource() != null && event.getSource().getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+		if(event.getSource() != null && event.getSource().getImmediateSource() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getSource().getImmediateSource();
 			for(Message message : MessageLoader.allMessages.values())
 				message.onEntityKilled(player, event.getEntityLiving());	
 		}

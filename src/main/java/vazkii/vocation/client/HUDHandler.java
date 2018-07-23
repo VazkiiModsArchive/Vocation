@@ -21,11 +21,11 @@ public class HUDHandler {
 	private static final int FADE_TICKS = 10;
 	
 	// TODO Clear on world leave
-	private Queue<Message> messageQueue = new ArrayDeque();
+	private Queue<Message> messageQueue = new ArrayDeque<>();
 	private Message currentMessage;
 	private Message lastMessage;
-	int ticksOnCurrentMessage = 0;
-	int ticksForFadeout = 0;
+	private int ticksOnCurrentMessage = 0;
+	private int ticksForFadeout = 0;
 	
 	public void addMessageToQueue(Message m) {
 		if(m.message.isEmpty())
@@ -38,7 +38,7 @@ public class HUDHandler {
 	
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
-		if(Minecraft.getMinecraft().theWorld == null) {
+		if(Minecraft.getMinecraft().world == null) {
 			currentMessage = null;
 			lastMessage = null;
 			ticksOnCurrentMessage = 0;
@@ -105,10 +105,10 @@ public class HUDHandler {
 	
 	private void renderMessage(RenderGameOverlayEvent.Post event, Message m, float a) {
 		Minecraft mc = Minecraft.getMinecraft();
-		FontRenderer font = mc.fontRendererObj;
+		FontRenderer font = mc.fontRenderer;
 		
 		int maxWidth = ConfigHandler.boxWidth;
-		float width = Math.min(maxWidth, font.getStringWidth(m.message));
+		//float width = Math.min(maxWidth, font.getStringWidth(m.message));
 		float dist = ConfigHandler.paddingX;
 		float y = ConfigHandler.paddingY;
 		

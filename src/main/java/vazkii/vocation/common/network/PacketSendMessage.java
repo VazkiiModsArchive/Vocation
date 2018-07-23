@@ -24,7 +24,7 @@ public class PacketSendMessage implements IMessage, IMessageHandler<PacketSendMe
 
 	public void fromBytes(ByteBuf buffer) {
 		PacketBuffer packet = new PacketBuffer(buffer);
-		id = packet.readStringFromBuffer(64);
+		id = packet.readString(64);
 	}
 
 	public IMessage onMessage(PacketSendMessage message, MessageContext context) {

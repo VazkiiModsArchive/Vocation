@@ -3,7 +3,6 @@ package vazkii.vocation.common;
 import java.io.File;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -34,7 +33,7 @@ public class CommonProxy {
 		NetworkHandler.init();
 		
 		MinecraftForge.EVENT_BUS.register(TriggerHandler.INSTANCE);
-		FMLCommonHandler.instance().bus().register(TriggerHandler.INSTANCE);
+		//FMLCommonHandler.instance().bus().register(TriggerHandler.INSTANCE);
 	}
 	
 	public void serverStarting(FMLServerStartingEvent event) {
