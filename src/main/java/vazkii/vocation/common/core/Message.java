@@ -47,7 +47,7 @@ public class Message {
 	}
 	
 	public String getAudio() {
-		if(voiceover.isEmpty())
+		if(voiceover == null || voiceover.isEmpty())
 			return null;
 		
 		return namespace + "/audio/" + voiceover;
