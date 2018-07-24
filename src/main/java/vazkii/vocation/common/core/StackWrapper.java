@@ -5,9 +5,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class StackWrapper {
@@ -17,12 +15,12 @@ public class StackWrapper {
 	public int stackSize = 1;
 	public JsonObject nbt = null;
 	
-	private transient ItemStack stack = null;
+	private transient ItemStack stack = ItemStack.EMPTY;
 	private transient boolean validateMetadata = false;
 	private transient boolean validateNBT = false;
 	
 	public ItemStack asStack() {
-		if(stack == null)
+		if(stack == ItemStack.EMPTY)
 			initStack();
 		
 		return stack;
@@ -32,17 +30,14 @@ public class StackWrapper {
 		int propMeta = metadata == -1 ? 0 : metadata;
 		validateMetadata = metadata != -1;
 		
-		stack = new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(id)), stackSize, propMeta);
+		stack = new ItemStack(Item.REGISTRY.getObject(new ResourceLocation(id)), stackSize, propMeta);
 		
 		if(nbt != null) {
 			String json = fixJson(MessageLoader.gson.toJson(nbt));
 			
 			try {
-				NBTBase cmp = JsonToNBT.getTagFromJson(json);
-				if(cmp instanceof NBTTagCompound) {
-					stack.setTagCompound((NBTTagCompound) cmp); 
-					validateNBT = true;
-				}
+				stack.setTagCompound(JsonToNBT.getTagFromJson(json));
+				validateNBT = true;
 			} catch (NBTException e) {
 				e.printStackTrace();
 			}
@@ -51,7 +46,7 @@ public class StackWrapper {
 	
 	public boolean isEquivalentItem(ItemStack stack) {
 		ItemStack ourStack = asStack();
-		if(ourStack == null)
+		if(ourStack == ItemStack.EMPTY)
 			return false;
 		
 		if(stack.getItem() != ourStack.getItem())

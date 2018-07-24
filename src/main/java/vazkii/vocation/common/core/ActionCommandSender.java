@@ -7,9 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class ActionCommandSender implements ICommandSender {
 
@@ -20,31 +20,24 @@ public class ActionCommandSender implements ICommandSender {
 	}
 
 	@Override
-	public void addChatMessage(ITextComponent p_145747_1_) {
-		player.addChatComponentMessage(p_145747_1_);
-	}
-
-	@Override
-	public boolean canCommandSenderUseCommand(int p_70003_1_, String p_70003_2_) {
-		return p_70003_1_ <= 2;
-	}
-
-	@Override
+	@Nonnull
 	public World getEntityWorld() {
 		return player.getEntityWorld();
 	}
 
 	@Override
+	@Nonnull
 	public String getName() {
 		return "Vocation-actions";
 	}
 
 	@Override
-	public ITextComponent getDisplayName() {
-		return null;
+	public boolean canUseCommand(int i, String s) {
+		return i <= 2;
 	}
 
 	@Override
+	@Nonnull
 	public BlockPos getPosition() {
 		return player.getPosition();
 	}
@@ -65,6 +58,7 @@ public class ActionCommandSender implements ICommandSender {
 	}
 
 	@Override
+	@Nonnull
 	public Vec3d getPositionVector() {
 		return player.getPositionVector();
 	}

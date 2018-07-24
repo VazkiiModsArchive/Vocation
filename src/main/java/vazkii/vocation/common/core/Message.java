@@ -2,10 +2,12 @@ package vazkii.vocation.common.core;
 
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -33,7 +35,7 @@ public class Message {
 			
 			if(!PlayerDataStorage.hasShownMessage(player)) {
 				PlayerDataStorage.setShownMessage(player);
-				player.addChatComponentMessage(new TextComponentString("Use /vocation-review to see the last message you got!").setStyle(new Style().setColor(TextFormatting.AQUA)));
+				player.sendMessage(new TextComponentString("Use /vocation-review to see the last message you got!").setStyle(new Style().setColor(TextFormatting.AQUA)));
 			}
 			
 			if(doActions && !PlayerDataStorage.isSeen(player, id)) {
@@ -45,7 +47,7 @@ public class Message {
 	}
 	
 	public String getAudio() {
-		if(voiceover.isEmpty())
+		if(voiceover == null || voiceover.isEmpty())
 			return null;
 		
 		return namespace + "/audio/" + voiceover;
@@ -112,5 +114,4 @@ public class Message {
 				+ " actions=" + actions
 				+ "]";
 	}
-	
 }

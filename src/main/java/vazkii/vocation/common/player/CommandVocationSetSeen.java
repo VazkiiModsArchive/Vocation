@@ -8,28 +8,33 @@ import net.minecraft.server.MinecraftServer;
 import vazkii.vocation.common.core.Message;
 import vazkii.vocation.common.core.MessageLoader;
 
+import javax.annotation.Nonnull;
+
 public class CommandVocationSetSeen extends CommandBase {
 
-	public String getCommandName() {
+	@Override
+	@Nonnull
+	public String getName() {
 		return "vocation-set-seen";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
+	@Nonnull
+	public String getUsage(@Nonnull ICommandSender sender) {
 		return "<player> <id> <true/false>";
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender p_71515_1_, String[] p_71515_2_) throws CommandException {
-		EntityPlayerMP entityplayermp = p_71515_2_.length == 2 ? getCommandSenderAsPlayer(p_71515_1_) : getPlayer(server, p_71515_1_, p_71515_2_[0]);
+	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
+		EntityPlayerMP entityplayermp = args.length == 2 ? getCommandSenderAsPlayer(sender) : getPlayer(server, sender, args[0]);
 		if(entityplayermp != null) {
-			String id = p_71515_2_[1];
-			boolean seen = Boolean.parseBoolean(p_71515_2_[2]);
+			String id = args[1];
+			boolean seen = Boolean.parseBoolean(args[2]);
 			Message m = MessageLoader.allMessages.get(id);
 			if(m != null) {
 				boolean wasSeen = PlayerDataStorage.isSeen(entityplayermp, id);
 				PlayerDataStorage.setSeen(entityplayermp, id, seen);
-				notifyCommandListener(p_71515_1_, this, "Set seen to " + seen + " from " + wasSeen);
+				notifyCommandListener(sender, this, "Set seen to " + seen + " from " + wasSeen);
 			}
 		}
 	}

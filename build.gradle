@@ -11,33 +11,41 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        //classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
     }
 }
 
 repositories {
+    mavenCentral()
     maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven/"
     }
+    //maven { url = "http://minecraft.curseforge.com/api/maven/" }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+//apply plugin: 'com.matthewprenger.cursegradle'
 apply plugin: 'maven'
-apply plugin: 'eclipse'
 
 ext.configFile = file('build.properties')
 
 ext.config = parseConfig(configFile)
-//ext.priv = parseConfig(file('private.properties'))
+ext.priv = parseConfig(file('private.properties'))
 
 version = "${config.version}-${config.build_number}"
 group = "vazkii.vocation" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = config.mod_name
 
+if (System.getenv().BUILD_NUMBER != null) {
+    //adds the build number to the end of the version string if on a build server
+    version += ".${System.getenv().BUILD_NUMBER}"
+}
+
 minecraft {
-    version = "${config.mc_version}-${config.forge_version}-${config.mc_version_suffix}"
-    runDir = "eclipse/assets"
+    version = "${config.mc_version}-${config.forge_version}"
+    runDir = "run"
     mappings = config.mc_mappings
 
     //This, does the token replacement.
@@ -46,15 +54,32 @@ minecraft {
     replace 'GRADLE:VERSION', config.version
 
     replaceIn 'LibMisc.java' //I may have missed another file, though I can only find it in here.
+    useDepAts = true
+    makeObfSourceJar = false
 }
 
-repositories {
-    mavenCentral()
+configurations {
+    sshAntTask
+}
+
+jar {
+    classifier = 'universal'
+    //manifest {
+    //    attributes 'FMLAT': 'vocation_at.cfg'
+    //}
 }
 
 dependencies {
 
 }
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 processResources {
     // replace stuff in mcmod.info, nothing else
@@ -121,11 +146,14 @@ task outputDeobf(type: Copy) {
     into file("${config.dir_output}/deobf")
 }
 
-/*task forgecraft(type: Copy) {
+task forgecraft(type: Copy) {
+    if(priv == null){
+        return
+    }
     dependsOn "outputDeobf"
     from "${config.dir_output}/wtf"
-    into file(config.dir_forgecraft)
-}*/
+    into file(priv.dir_forgecraft)
+}
 
 task sort(type: Delete) {
     dependsOn /*"forgecraft"*/ "outputDeobf"
@@ -135,17 +163,16 @@ task sort(type: Delete) {
 /**
  * This is the upload task from the build.xml
  */
-/*task upload(dependsOn: 'reobf') << {
-    ftp(action: 'mkdir', remotedir: '/files')
-    ftp(action: 'send', remotedir: '/files') {
+/*task upload() << {
+    scp('/files') {
         fileset(file: jar.archivePath)
     }
-    
-     ftp(action: 'send', remotedir: '/files/deobf') {
+
+	scp('/files/deobf') {
         fileset(file: deobfJar.archivePath)
     }
 
-    ftp(action: 'send', remotedir: '.') {
+    scp('/') {
         fileset(file: 'web/changelog.txt')
         fileset(file: 'web/versions.ini')
     }
@@ -154,26 +181,28 @@ task sort(type: Delete) {
 /**
  * This is deply_web task
  */
-task deployWeb << {
-    ftp(action: 'send', remotedir: '.') {
+/*task deployWeb << {
+    scp('/') {
         fileset(dir: 'web') //everything from the web directory
     }
-}
+}*/
 
-//simple function that we can use
-//Got this from: http://svn.codehaus.org/gradle/website/build.gradle
-/*void ftp(Map args, Closure antFileset = {}) {
+/*def scp(String dir, Closure antFileset = {}) {
     ant {
-        taskdef(name: 'ftp',
-                classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
-                classpath: configurations.ftpAntTask.asPath)
-        Map ftpArgs = args + [ //some default options
-                               verbose : 'yes',
-                               server  : priv.host,
-                               userid  : priv.user,
-                               password: priv.pass
+        taskdef(
+            name: 'scp',
+            classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
+            classpath: configurations.sshAntTask.asPath)
+
+        String dirstr = priv.scp_dir + dir
+        Map scpArgs = [
+           todir  : dirstr,
+           password  : priv.scp_pass,
+           sftp: true,
+           trust: 'yes'
         ]
-        delegate.ftp(ftpArgs) {
+
+        delegate.scp(scpArgs) {
             antFileset.delegate = delegate
             antFileset()
         }
@@ -181,27 +210,55 @@ task deployWeb << {
 }*/
 
 def parseConfig(File config) {
-    config.withReader {
-        def prop = new Properties()
-        prop.load(it)
-        return (new ConfigSlurper().parse(prop))
+    if(config.exists()){
+        config.withReader {
+            def prop = new Properties()
+            prop.load(it)
+            return (new ConfigSlurper().parse(prop))
+        }
+    } else {
+        return null
     }
 }
 
 jar {
     //rename the default output, for some better... sanity with scipts
     archiveName = "${baseName} ${version}.${extension}"
+
+    exclude "**/*.bat"
+    exclude "**/*.psd"
+    exclude "**/*.exe"
 }
 
-/*curse {
+/*curseforge {
+	if(priv == null){
+		return;
+	}
     apiKey = priv.cfkey
-    projectId = "225643"
-    changelog = """
-        See http://vazkii.us/mod/Botania/changelog.php#${version}
-    """
-    releaseType = "release"
-}*/
+    project {
+        id = "225643"
+        changelog = """
+		    See http://botaniamod.net/changelog.php#${version}
+        """
+        releaseType = "release"
+        addGameVersion "${config.cf_meta_version}"
+        relations {
+            requiredLibrary 'baubles'
+            optionalLibrary 'quark'
+            optionalLibrary 'albedo'
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://" + (System.getenv("local_maven") != null ? System.getenv("local_maven") : System.getenv("bamboo_local_maven")))
+        }
+    }
+}
+*/
 
 //change this so it only increments on upload
 //upload.dependsOn tasks.incrementBuildNumber
-defaultTasks 'clean', 'build', 'sort', 'incrementBuildNumber'/*, 'forgecraft', 'curse', 'upload'*/ //remove clean if you want faster builds, this will stop rare inconsistancies. 
+defaultTasks 'clean', 'build', 'sort', 'incrementBuildNumber'/*, 'forgecraft', 'curseforge', 'upload'*/ //remove clean if you want faster builds, this will stop rare inconsistancies.

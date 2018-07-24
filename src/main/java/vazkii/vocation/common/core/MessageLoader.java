@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Level;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.minecraftforge.fml.common.FMLLog;
+
+import javax.annotation.Nonnull;
 
 public class MessageLoader {
 
@@ -25,20 +25,14 @@ public class MessageLoader {
 		MessageLoader.baseDir = baseDir;
 		clear();
 		
-		File[] dirsInside = baseDir.listFiles(new FileFilter() {
-			public boolean accept(File arg0) {
-				return arg0.isDirectory();
-			}
-		});
-		
-		for(File f : dirsInside)
-			load(f);
+		for(File f : baseDir.listFiles( file -> file.isDirectory() ))
+			loadDir(f);
 	}
 	
-	public static void load(File baseDir) {
+	public static void loadDir(@Nonnull File baseDir) {
 		for(File f : baseDir.listFiles()) {
 			if(f.isDirectory())
-				load(f);
+				loadDir(f);
 			
 			String namespace = baseDir.getName();
 			String name = f.getName();
@@ -49,9 +43,9 @@ public class MessageLoader {
 	
 	public static void loadJson(String namespace, File f) {
 		try {
-			List<Message> list = gson.<List<Message>>fromJson(new FileReader(f), new TypeToken<List<Message>>(){}.getType());
+			List<Message> list = gson.fromJson(new FileReader(f), new TypeToken<List<Message>>(){}.getType());
 			for(Message m : list) {
-				FMLLog.log(Level.INFO, "[Vocation] Loaded message " + m + " on file " + f);
+				FMLLog.log.info( "[Vocation] Loaded message " + m + " on file " + f);
 				m.namespace = namespace;
 				allMessages.put(m.id, m);
 			}
@@ -61,6 +55,6 @@ public class MessageLoader {
 	}
 	
 	public static void clear() {
-		allMessages = new HashMap();
+		allMessages = new HashMap<>();
 	}
 }
